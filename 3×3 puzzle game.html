@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Puzzle Game</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      grid-gap: 5px;
+    }
+    .tile {
+      width: 80px;
+      height: 80px;
+      background: #3498db;
+      color: white;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .empty {
+      background: #ccc;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    play puzzle now
+  </h1>
+  <p>programed by abhiman</p>
+<div class="board" id="board"></div>
+
+<script>
+  const board = document.getElementById("board");
+  let numbers = [1, 2, 3, 4, 5, 6, 7, 8, null];
+
+  function drawBoard() {
+    board.innerHTML = '';
+    numbers.forEach((num, i) => {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      if (num === null) {
+        tile.classList.add('empty');
+      } else {tile.textContent = num;
+        tile.addEventListener('click', () => moveTile(i));
+      }
+      board.appendChild(tile);
+    });
+  }
+
+  function moveTile(i) {
+    const emptyIndex = numbers.indexOf(null);
+    const validMoves = [i - 1, i + 1, i - 3, i + 3];
+
+    if (validMoves.includes(emptyIndex)) {
+      [numbers[i], numbers[emptyIndex]] = [numbers[emptyIndex], numbers[i]];
+      drawBoard();
+    }
+  }
+
+  // Shuffle tiles
+  numbers.sort(() => Math.random() - 0.5);
+  drawBoard();
+</script>
+
+</body>
+</html>
